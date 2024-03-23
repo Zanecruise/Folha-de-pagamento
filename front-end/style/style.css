@@ -52,6 +52,8 @@ label{
     background-color: var(--cor-botao-principal);
     border-color: var(--cor-botao-secundaria);
     width: 28vh;
+    font-weight: bolder;
+    font-size: 2.3vh;
 
 }
 
