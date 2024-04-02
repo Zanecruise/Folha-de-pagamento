@@ -21,6 +21,5 @@ public class UsuarioService {
         Map<String, Object> funcionario = jdbcTemplate.queryForMap(sql, id);
         System.out.println("Funcionario encontrado: " + funcionario);
     }
-    
-
+  
 }
