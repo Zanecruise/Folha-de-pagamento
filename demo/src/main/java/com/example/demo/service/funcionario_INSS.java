@@ -2,9 +2,7 @@ package com.example.demo.service;
 
 import java.util.Map;
 
-import org.springframework.stereotype.Service;
 
-@Service
 public class funcionario_INSS {
 
     private String descricao;
@@ -13,12 +11,14 @@ public class funcionario_INSS {
     private double desconto;
 
     // Construtor
-    public funcionario_INSS(String descricao, double referencia, invalid invalid, double desconto) {
+    public funcionario_INSS(String descricao, double referencia, Double provento, double desconto) {
         this.descricao = descricao;
         this.referencia = referencia;
-        this.provento = invalid;
+        this.provento = provento;
         this.desconto = desconto;
     }
+
+
 
     // Método para calcular INSS e retornar um objeto FuncionarioINSS
     public static funcionario_INSS calcularINSS(Map<String, Object> beneficios, Map<String, Object> funcionario) {
@@ -26,7 +26,7 @@ public class funcionario_INSS {
             double salarioBase = (double) funcionario.get("salario_base");
             int faixaINSS;
             double valorINSS;
-
+    
             if (salarioBase <= 1751.81) {
                 faixaINSS = 8;
             } else if (salarioBase <= 2919.72) {
@@ -34,7 +34,7 @@ public class funcionario_INSS {
             } else {
                 faixaINSS = 11;
             }
-
+    
             switch (faixaINSS) {
                 case 8:
                     valorINSS = salarioBase * 0.08;
@@ -49,16 +49,16 @@ public class funcionario_INSS {
                     valorINSS = 642.34;
                     break;
             }
+    
 
-            // Cria uma instância do objeto FuncionarioINSS
-            funcionario_INSS funcionarioINSS = new funcionario_INSS("I.N.S.S", faixaINSS, null, valorINSS);
-            funcionarioINSS.setProvento(salarioBase - valorINSS);
+            return new funcionario_INSS("I.N.S.S", faixaINSS, 0.0, valorINSS);
 
-            return funcionarioINSS;
+
         }
-
+    
         return null; // Retorna null se o funcionário não estiver sujeito ao INSS
     }
+    
 
     // Getters e Setters
     public String getDescricao() {
@@ -92,4 +92,6 @@ public class funcionario_INSS {
     public void setDesconto(double desconto) {
         this.desconto = desconto;
     }
+
+
 }
