@@ -14,11 +14,10 @@ public class AdicionaisInsert {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void inserirFuncionario(String descricao, double referencia, double provento, double desconto) {
-        // Defina sua consulta de inserção SQL com parâmetros
+    public void inserirAdiantamento(String descricao, double referencia, double provento, double desconto) {
+        
         String sql = "INSERT INTO adicionais (descricao, referencia, provento, desconto) VALUES (?, ?, ?, ?)";
 
-        // Execute a consulta de inserção passando os valores dos parâmetros
         jdbcTemplate.update(sql, descricao, referencia, provento, desconto);
     }
 

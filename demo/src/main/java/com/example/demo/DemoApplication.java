@@ -9,6 +9,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import com.example.demo.insert.AdicionaisInsert;
 import com.example.demo.repository.BeneficiosRepository;
 import com.example.demo.repository.FuncionarioRepository;
+import com.example.demo.service.FuncionarioAdiantamento;
+import com.example.demo.service.FuncionarioDescontosJudiciais;
+import com.example.demo.service.FuncionarioFGTS;
 import com.example.demo.service.funcionario_INSS;
 
 
@@ -34,19 +37,51 @@ public class DemoApplication {
         System.out.println(beneficios);
 
         funcionario_INSS funcionarioINSS = funcionario_INSS.calcularINSS(beneficios, funcionario);
+        FuncionarioFGTS funcionarioFGTS = FuncionarioFGTS.calcularFGTS(beneficios, funcionario);
+        FuncionarioAdiantamento funcionarioAdiantamento = FuncionarioAdiantamento.calcularFGTS(beneficios, funcionario);
+        FuncionarioDescontosJudiciais funcionarioDescontosJudiciais = FuncionarioDescontosJudiciais.calcularDescontosJudiciais(beneficios);
 
 
         if (funcionarioINSS != null) {
-            // Obter os valores calculados
+
             String descricao = funcionarioINSS.getDescricao();
             double referencia = funcionarioINSS.getReferencia();
             double provento = funcionarioINSS.getProvento();
             double desconto = funcionarioINSS.getDesconto();
-        
-            // Inserir os valores no banco de dados
-            adicionaisInsert.inserirFuncionario(descricao, referencia, provento, desconto);
+
+            adicionaisInsert.inserirAdiantamento(descricao, referencia, provento, desconto);
         }
-;
+
+        if (funcionarioFGTS != null) {
+            
+            String descricao = funcionarioFGTS.getDescricao();
+            double desconto = funcionarioFGTS.getDesconto();
+
+            adicionaisInsert.inserirAdiantamento(descricao, 0, 0, desconto);
+        }
+
+        if (funcionarioAdiantamento != null) {
+            
+            String descricao = funcionarioAdiantamento.getDescricao();
+            double referencia = funcionarioAdiantamento.getReferencia();
+            double provento = funcionarioAdiantamento.getProvento();
+            double desconto = funcionarioAdiantamento.getDesconto();
+
+            adicionaisInsert.inserirAdiantamento(descricao, referencia, provento, desconto);
+
+        }
+
+        if (funcionarioDescontosJudiciais != null) {
+            
+            String descricao = funcionarioDescontosJudiciais.getDescricao();
+            double referencia = funcionarioDescontosJudiciais.getReferencia();
+            double provento = funcionarioDescontosJudiciais.getProvento();
+            double desconto = funcionarioDescontosJudiciais.getDesconto();
+
+            adicionaisInsert.inserirAdiantamento(descricao, referencia, provento, desconto);
+
+        }
+
 
     }
 

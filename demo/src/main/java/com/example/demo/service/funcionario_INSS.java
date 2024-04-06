@@ -10,17 +10,6 @@ public class funcionario_INSS {
     private double provento;
     private double desconto;
 
-    // Construtor
-    public funcionario_INSS(String descricao, double referencia, Double provento, double desconto) {
-        this.descricao = descricao;
-        this.referencia = referencia;
-        this.provento = provento;
-        this.desconto = desconto;
-    }
-
-
-
-    // Método para calcular INSS e retornar um objeto FuncionarioINSS
     public static funcionario_INSS calcularINSS(Map<String, Object> beneficios, Map<String, Object> funcionario) {
         if (Boolean.TRUE.equals(beneficios.get("INSS"))) {
             double salarioBase = (double) funcionario.get("salario_base");
@@ -49,18 +38,22 @@ public class funcionario_INSS {
                     valorINSS = 642.34;
                     break;
             }
-    
 
             return new funcionario_INSS("I.N.S.S", faixaINSS, 0.0, valorINSS);
 
 
         }
     
-        return null; // Retorna null se o funcionário não estiver sujeito ao INSS
+        return null;
     }
-    
+ 
+    public funcionario_INSS(String descricao, double referencia, Double provento, double desconto) {
+        this.descricao = descricao;
+        this.referencia = referencia;
+        this.provento = provento;
+        this.desconto = desconto;
+    }
 
-    // Getters e Setters
     public String getDescricao() {
         return descricao;
     }
@@ -75,22 +68,6 @@ public class funcionario_INSS {
 
     public double getDesconto() {
         return desconto;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public void setReferencia(double referencia) {
-        this.referencia = referencia;
-    }
-
-    public void setProvento(double provento) {
-        this.provento = provento;
-    }
-
-    public void setDesconto(double desconto) {
-        this.desconto = desconto;
     }
 
 
