@@ -14,11 +14,11 @@ public class AdicionaisInsert {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void inserirAdiantamento(String descricao, double referencia, double provento, double desconto) {
+    public void inserirAdiantamento(String descricao, double referencia, double provento, double desconto, int id_funcionario) {
         
-        String sql = "INSERT INTO adicionais (descricao, referencia, provento, desconto) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO adicionais (descricao, referencia, provento, desconto, id_funcionario) VALUES (?, ?, ?, ?, ?)";
 
-        jdbcTemplate.update(sql, descricao, referencia, provento, desconto);
+        jdbcTemplate.update(sql, descricao, referencia, provento, desconto, id_funcionario);
     }
 
 }
