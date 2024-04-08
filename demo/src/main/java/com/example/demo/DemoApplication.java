@@ -13,6 +13,7 @@ import com.example.demo.service.FuncionarioDSR;
 import com.example.demo.service.FuncionarioDescontosJudiciais;
 import com.example.demo.service.FuncionarioFGTS;
 import com.example.demo.service.FuncionarioINSS;
+import com.example.demo.service.FuncionarioPericulosidade;
 import com.example.demo.service.FuncionarioSalarioFamilia;
 
 @SpringBootApplication
@@ -20,7 +21,7 @@ public class DemoApplication {
 
     private static Map<String, Object> funcionario;
     private static Map<String, Object> beneficios;
-    private static int beneficiarios;
+    //private static int beneficiarios;
     private static int id = 1;
     
 
@@ -47,6 +48,7 @@ public class DemoApplication {
         FuncionarioDescontosJudiciais descontosJudiciais = new FuncionarioDescontosJudiciais();
         FuncionarioDSR dsr = new FuncionarioDSR();
         FuncionarioSalarioFamilia salarioFamilia = new FuncionarioSalarioFamilia();
+        FuncionarioPericulosidade periculosidade = new FuncionarioPericulosidade();
 
         double funcionarioFGTS = fgts.calcularBeneficio(beneficios, funcionario);
         double funcionarioAdiantamento = adiantamento.calcularBeneficio(beneficios, funcionario);
@@ -54,6 +56,7 @@ public class DemoApplication {
         double funcionarioDescontosJudiciais = descontosJudiciais.calcularBeneficio(beneficios, funcionario);
         double funcionarioDRS = dsr.calcularBeneficio(beneficios, funcionario);
         double FuncionarioSalarioFamilia = salarioFamilia.calcularBeneficio(beneficios, funcionario);
+        double FuncionarioPericulosidade = periculosidade.calcularBeneficio(beneficios, funcionario);
 
         //System.out.println(funcionarioDRS);
         System.out.println(FuncionarioSalarioFamilia);
@@ -118,6 +121,16 @@ public class DemoApplication {
 
             adicionaisInsert.inserirAdiantamento(descricao, referencia, provento, desconto, id);
 
+        }
+
+        if (FuncionarioPericulosidade != 0.0) {
+
+            String descricao = periculosidade.getDescricao();
+            double referencia = periculosidade.getReferencia();
+            double provento = periculosidade.getProvento();
+            double desconto = periculosidade.getDesconto();
+
+            adicionaisInsert.inserirAdiantamento(descricao, referencia, provento, desconto, id);
         }
 
     }
