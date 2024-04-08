@@ -1,91 +1,125 @@
 package com.example.demo;
 
 import java.util.Map;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-
 import com.example.demo.insert.AdicionaisInsert;
+//import com.example.demo.joins.BeneficiariosLEFT;
 import com.example.demo.repository.BeneficiosRepository;
 import com.example.demo.repository.FuncionarioRepository;
 import com.example.demo.service.FuncionarioAdiantamento;
+import com.example.demo.service.FuncionarioDSR;
 import com.example.demo.service.FuncionarioDescontosJudiciais;
 import com.example.demo.service.FuncionarioFGTS;
-import com.example.demo.service.funcionario_INSS;
-
+import com.example.demo.service.FuncionarioINSS;
+import com.example.demo.service.FuncionarioSalarioFamilia;
 
 @SpringBootApplication
 public class DemoApplication {
 
     private static Map<String, Object> funcionario;
     private static Map<String, Object> beneficios;
+    private static int beneficiarios;
+    private static int id = 1;
+    
 
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(DemoApplication.class, args);
         FuncionarioRepository funcionarioRepository = context.getBean(FuncionarioRepository.class);
         BeneficiosRepository beneficiosRepository = context.getBean(BeneficiosRepository.class);
         AdicionaisInsert adicionaisInsert = context.getBean(AdicionaisInsert.class);
+        //BeneficiariosLEFT beneficiariosLEFT = context.getBean(BeneficiariosLEFT.class);
+
+        beneficios = beneficiosRepository.imprimirBeneficiosPorId(id);
+        funcionario = funcionarioRepository.imprimirFuncionarioPorId(id);
+        //beneficiarios = beneficiariosLEFT.imprimirBeneficiariosPorId(id);
         
 
 
-        funcionario = funcionarioRepository.imprimirFuncionarioPorId(1);
-        beneficios = beneficiosRepository.imprimirBeneficiosPorId(1);
-        
-
-        System.out.println(funcionario);
         System.out.println(beneficios);
+        System.out.println(funcionario);
+        //System.out.println(beneficiarios);
 
-        funcionario_INSS funcionarioINSS = funcionario_INSS.calcularINSS(beneficios, funcionario);
-        FuncionarioFGTS funcionarioFGTS = FuncionarioFGTS.calcularFGTS(beneficios, funcionario);
-        FuncionarioAdiantamento funcionarioAdiantamento = FuncionarioAdiantamento.calcularFGTS(beneficios, funcionario);
-        FuncionarioDescontosJudiciais funcionarioDescontosJudiciais = FuncionarioDescontosJudiciais.calcularDescontosJudiciais(beneficios);
+        FuncionarioAdiantamento adiantamento = new FuncionarioAdiantamento();
+        FuncionarioFGTS fgts = new FuncionarioFGTS();
+        FuncionarioINSS inss = new FuncionarioINSS();
+        FuncionarioDescontosJudiciais descontosJudiciais = new FuncionarioDescontosJudiciais();
+        FuncionarioDSR dsr = new FuncionarioDSR();
+        FuncionarioSalarioFamilia salarioFamilia = new FuncionarioSalarioFamilia();
+
+        double funcionarioFGTS = fgts.calcularBeneficio(beneficios, funcionario);
+        double funcionarioAdiantamento = adiantamento.calcularBeneficio(beneficios, funcionario);
+        double funcionarioINSS = inss.calcularBeneficio(beneficios, funcionario);
+        double funcionarioDescontosJudiciais = descontosJudiciais.calcularBeneficio(beneficios, funcionario);
+        double funcionarioDRS = dsr.calcularBeneficio(beneficios, funcionario);
+        double FuncionarioSalarioFamilia = salarioFamilia.calcularBeneficio(beneficios, funcionario);
+
+        //System.out.println(funcionarioDRS);
+        System.out.println(FuncionarioSalarioFamilia);
 
 
-        if (funcionarioINSS != null) {
+        if (funcionarioINSS != 0.0) {
 
-            String descricao = funcionarioINSS.getDescricao();
-            double referencia = funcionarioINSS.getReferencia();
-            double provento = funcionarioINSS.getProvento();
-            double desconto = funcionarioINSS.getDesconto();
+            String descricao = inss.getDescricao();
+            double referencia = inss.getReferencia();
+            double provento = inss.getProvento();
+            double desconto = inss.getDesconto();
 
-            adicionaisInsert.inserirAdiantamento(descricao, referencia, provento, desconto);
+            adicionaisInsert.inserirAdiantamento(descricao, referencia, provento, desconto, id);
         }
 
-        if (funcionarioFGTS != null) {
-            
-            String descricao = funcionarioFGTS.getDescricao();
-            double desconto = funcionarioFGTS.getDesconto();
+        if (funcionarioFGTS != 0.0) {
+            String descricao = fgts.getDescricao();
+            double desconto = fgts.getDesconto();
 
-            adicionaisInsert.inserirAdiantamento(descricao, 0, 0, desconto);
+            adicionaisInsert.inserirAdiantamento(descricao, 0, 0, desconto, id);
         }
 
-        if (funcionarioAdiantamento != null) {
-            
-            String descricao = funcionarioAdiantamento.getDescricao();
-            double referencia = funcionarioAdiantamento.getReferencia();
-            double provento = funcionarioAdiantamento.getProvento();
-            double desconto = funcionarioAdiantamento.getDesconto();
+        if (funcionarioAdiantamento != 0.0) {
 
-            adicionaisInsert.inserirAdiantamento(descricao, referencia, provento, desconto);
+            String descricao = adiantamento.getDescricao();
+            double referencia = adiantamento.getReferencia();
+            double provento = adiantamento.getProvento();
+            double desconto = adiantamento.getDesconto();
 
-        }
-
-        if (funcionarioDescontosJudiciais != null) {
-            
-            String descricao = funcionarioDescontosJudiciais.getDescricao();
-            double referencia = funcionarioDescontosJudiciais.getReferencia();
-            double provento = funcionarioDescontosJudiciais.getProvento();
-            double desconto = funcionarioDescontosJudiciais.getDesconto();
-
-            adicionaisInsert.inserirAdiantamento(descricao, referencia, provento, desconto);
+            adicionaisInsert.inserirAdiantamento(descricao, referencia, provento, desconto, id);
 
         }
 
+        if (funcionarioDescontosJudiciais != 0.0) {
+
+            String descricao = descontosJudiciais.getDescricao();
+            double referencia = descontosJudiciais.getReferencia();
+            double provento = descontosJudiciais.getProvento();
+            double desconto = descontosJudiciais.getDesconto();
+
+            adicionaisInsert.inserirAdiantamento(descricao, referencia, provento, desconto, id);
+
+        }
+
+        if (funcionarioDRS != 0.0) {
+
+            String descricao = dsr.getDescricao();
+            double referencia = dsr.getReferencia();
+            double provento = dsr.getProvento();
+            double desconto = dsr.getDesconto();
+
+            adicionaisInsert.inserirAdiantamento(descricao, referencia, provento, desconto, id);
+
+        }
+
+        if (FuncionarioSalarioFamilia != 0.0) {
+
+            String descricao = salarioFamilia.getDescricao();
+            double referencia = salarioFamilia.getReferencia();
+            double provento = salarioFamilia.getProvento();
+            double desconto = salarioFamilia.getDesconto();
+
+            adicionaisInsert.inserirAdiantamento(descricao, referencia, provento, desconto, id);
+
+        }
 
     }
-
-
-    
 
 }

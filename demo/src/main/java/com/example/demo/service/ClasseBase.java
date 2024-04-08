@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Map;
 
-public class FuncionarioAdiantamento implements InterfaceService {
+public class ClasseBase implements InterfaceService {
 
     private String descricao;
     private double referencia;
@@ -42,14 +42,14 @@ public class FuncionarioAdiantamento implements InterfaceService {
         return valorBigDecimal.doubleValue();
     }
 
-    public FuncionarioAdiantamento(String descricao, double referencia, double provento, double desconto) {
+    public ClasseBase(String descricao, double referencia, double provento, double desconto) {
         this.descricao = descricao;
         this.referencia = referencia;
         this.provento = provento;
         this.desconto = desconto;
     }
 
-    public FuncionarioAdiantamento() {
+    public ClasseBase() {
         
     }
 

@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Map;
 
-public class FuncionarioAdiantamento implements InterfaceService {
+public class FuncionarioDSR implements InterfaceService {
 
     private String descricao;
     private double referencia;
@@ -13,22 +13,24 @@ public class FuncionarioAdiantamento implements InterfaceService {
 
     @Override
     public double calcularBeneficio(Map<String, Object> beneficios, Map<String, Object> funcionario) {
-        if (Boolean.TRUE.equals(beneficios.get("Adiantamento"))) {
+        if (Boolean.TRUE.equals(beneficios.get("DSR"))) {
             double salarioBase = (double) funcionario.get("salario_base");
 
-            double referencia = 0.1; // = 10%
+            double referencia = 4; // dias de descanso no mês
 
-            // 10% de adiantamento no MAX
-            double Adiantamento = salarioBase * referencia;
+            //DSR = (salário recebido * número de descanso no mês) / dias úteis do mês
+            double DSR = (salarioBase * referencia) / 22; 
+            
 
-            Adiantamento = arredondarParaDuasCasasDecimais(Adiantamento);
 
-            this.descricao = "ADIANTAMENTO";
-            this.referencia = 10;
-            this.provento = Adiantamento;
+            DSR = arredondarParaDuasCasasDecimais(DSR);
+
+            this.descricao = "DSR";
+            this.referencia = referencia;
+            this.provento = DSR;
             this.desconto = 0.0;
 
-            return Adiantamento;
+            return DSR;
         }
     
         return 0.0; 
@@ -42,14 +44,14 @@ public class FuncionarioAdiantamento implements InterfaceService {
         return valorBigDecimal.doubleValue();
     }
 
-    public FuncionarioAdiantamento(String descricao, double referencia, double provento, double desconto) {
+    public FuncionarioDSR(String descricao, double referencia, double provento, double desconto) {
         this.descricao = descricao;
         this.referencia = referencia;
         this.provento = provento;
         this.desconto = desconto;
     }
 
-    public FuncionarioAdiantamento() {
+    public FuncionarioDSR() {
         
     }
 

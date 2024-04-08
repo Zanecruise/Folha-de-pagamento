@@ -16,7 +16,7 @@ public class BeneficiosRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Map<String, Object> imprimirBeneficiosPorId(long id) {
+    public Map<String, Object> imprimirBeneficiosPorId(int id) {
         String sqlF = "SELECT * FROM beneficios_fixos WHERE id = ?";
         Map<String, Object> beneficios_fixos = jdbcTemplate.queryForMap(sqlF, id);
 

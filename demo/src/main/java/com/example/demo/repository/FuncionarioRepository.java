@@ -16,7 +16,7 @@ public class FuncionarioRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Map<String, Object> imprimirFuncionarioPorId(long id) {
+    public Map<String, Object> imprimirFuncionarioPorId(int id) {
         String sqlF = "SELECT * FROM funcionario WHERE id = ?";
         Map<String, Object> funcionario = jdbcTemplate.queryForMap(sqlF, id);
 

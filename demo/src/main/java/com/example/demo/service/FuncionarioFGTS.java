@@ -1,24 +1,47 @@
 package com.example.demo.service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Map;
 
-public class FuncionarioFGTS {
+public class FuncionarioFGTS implements InterfaceService {
 
     private String descricao;
     private double desconto;
 
-    public static FuncionarioFGTS calcularFGTS(Map<String, Object> beneficios, Map<String, Object> funcionario) {
+    @Override
+    public double calcularBeneficio(Map<String, Object> beneficios, Map<String, Object> funcionario) {
+
         if (Boolean.TRUE.equals(beneficios.get("FGTS"))) {
             double salarioBase = (double) funcionario.get("salario_base");
 
             double FGTS = salarioBase * 0.08;
 
-            return new FuncionarioFGTS("F.G.T.S", FGTS);
+            FGTS = arredondarParaDuasCasasDecimais(FGTS);
 
+            this.descricao = "F.G.T.S";
+            this.desconto = FGTS;
+
+            return FGTS;
+            
+        } else {
+
+            return 0.0; 
 
         }
     
-        return null;
+        
+    }
+
+    @Override
+    public double arredondarParaDuasCasasDecimais(double valor) {
+        BigDecimal valorBigDecimal = new BigDecimal(valor);
+        valorBigDecimal = valorBigDecimal.setScale(2, RoundingMode.HALF_UP);
+        return valorBigDecimal.doubleValue();
+    }
+
+    public FuncionarioFGTS() {
+        
     }
 
     public FuncionarioFGTS(String descricao, double desconto) {
@@ -32,6 +55,6 @@ public class FuncionarioFGTS {
 
     public double getDesconto() {
         return desconto;
-    }
+    }  
 
 }
