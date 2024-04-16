@@ -16,10 +16,10 @@ public class FuncionarioAdicionalNoturno implements InterfaceService {
     @Override
     public double calcularBeneficio(Map<String, Object> beneficios, Map<String, Object> funcionario) {
 
-        if (Boolean.TRUE.equals(beneficios.get("Hora_Extra"))) {
+        if (Boolean.TRUE.equals(beneficios.get("Adicional_noturno"))) {
             double salarioBase = (double) funcionario.get("salario_base");
 
-            Map<String, Object> bancoMap = BancoDeHorasRepository.imprimirBancoHoras((int) funcionario.get("id"));
+            Map<String, Object> bancoMap = BancoDeHorasRepository.imprimirBancoHoras((int) beneficios.get("id"));
 
             double horasTotais = (double) bancoMap.get("horas_totais");
             double horasNoturno = (double) bancoMap.get("Horas_noturno");

@@ -18,9 +18,9 @@ public class FuncionarioFaltas implements InterfaceService {
         if (Boolean.TRUE.equals(beneficios.get("Faltas"))) {
             double salarioBase = (double) funcionario.get("salario_base");
 
-            int id_funcionario = (int) funcionario.get("id");
+            int id_beneficios_fixos = (int) beneficios.get("id");
 
-            int quantidade = QuantidadeFaltas.quantidadeFaltas(id_funcionario);
+            int quantidade = QuantidadeFaltas.quantidadeFaltas(id_beneficios_fixos);
 
 
             double valorDia = salarioBase/30;
