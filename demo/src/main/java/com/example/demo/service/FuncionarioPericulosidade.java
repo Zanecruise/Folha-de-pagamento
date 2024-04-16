@@ -14,24 +14,30 @@ public class FuncionarioPericulosidade implements InterfaceService {
     @Override
     public double calcularBeneficio(Map<String, Object> beneficios, Map<String, Object> funcionario) {
         if (Boolean.TRUE.equals(beneficios.get("Periculosidade"))) {
-            double salarioBase = (double) funcionario.get("salario_base");
 
-            double referencia = 0.3; // = 30%
+            if (Boolean.FALSE.equals(beneficios.get("Insalubridade"))){ 
 
-            //Periculosidade: Salário * 0.3 = Valor da porcentagem de periculosidade
-            //Periculosidade: R$ 2.500 * 0,3 = R$ 750
+                double salarioBase = (double) funcionario.get("salario_base");
 
-            double Periculosidade = salarioBase * referencia;
+                double referencia = 0.3; // = 30%
+
+                //Periculosidade: Salário * 0.3 = Valor da porcentagem de periculosidade
+                //Periculosidade: R$ 2.500 * 0,3 = R$ 750
+
+                double Periculosidade = salarioBase * referencia;
 
 
-            Periculosidade = arredondarParaDuasCasasDecimais(Periculosidade);
+                Periculosidade = arredondarParaDuasCasasDecimais(Periculosidade);
 
-            this.descricao = "PERICULOSIDADE";
-            this.referencia = 30;
-            this.provento = Periculosidade;
-            this.desconto = 0.0;
+                this.descricao = "PERICULOSIDADE";
+                this.referencia = 30;
+                this.provento = Periculosidade;
+                this.desconto = 0.0;
 
-            return Periculosidade;
+                return Periculosidade;
+
+            }
+            
         }
     
         return 0.0; 
