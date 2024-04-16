@@ -4,7 +4,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Map;
 
-import com.example.demo.joins.QuantidadeFaltas;
+import com.example.demo.repository.AtrasosRepository;
+import com.example.demo.repository.BancoDeHorasRepository;
 
 public class FuncionarioAtrasos implements InterfaceService {
 
@@ -15,26 +16,30 @@ public class FuncionarioAtrasos implements InterfaceService {
 
     @Override
     public double calcularBeneficio(Map<String, Object> beneficios, Map<String, Object> funcionario) {
-        if (Boolean.TRUE.equals(beneficios.get("Faltas"))) {
+        if (Boolean.TRUE.equals(beneficios.get("Atrasos"))) {
             double salarioBase = (double) funcionario.get("salario_base");
 
-            int id_funcionario = (int) funcionario.get("id");
+            int id_beneficios_fixos = (int) beneficios.get("id");
 
-            int quantidade = QuantidadeFaltas.quantidadeFaltas(id_funcionario);
+            int quantidadeAtrasos = AtrasosRepository.quantidadeAtrasos(id_beneficios_fixos);
+
+            Map<String, Object> bancoMap = BancoDeHorasRepository.imprimirBancoHoras((int) beneficios.get("id"));
+
+            double horasTotais = (double) bancoMap.get("horas_totais");
+
+            double salarioHora = salarioBase / horasTotais;
 
 
-            double valorDia = salarioBase/30;
+            double atrasos = salarioHora * quantidadeAtrasos;
 
-            double faltasDesconto = quantidade * valorDia;
-
-            faltasDesconto = arredondarParaDuasCasasDecimais(faltasDesconto);
+            atrasos = arredondarParaDuasCasasDecimais(atrasos);
 
             this.descricao = "FALTAS";
-            this.referencia = quantidade;
+            this.referencia = quantidadeAtrasos;
             this.provento = 0.0;
-            this.desconto = faltasDesconto;
+            this.desconto = atrasos;
 
-            return faltasDesconto;
+            return atrasos;
         }
     
         return 0.0; 

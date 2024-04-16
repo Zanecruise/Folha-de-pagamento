@@ -19,7 +19,7 @@ public class FuncionarioHoraExtra implements InterfaceService {
         if (Boolean.TRUE.equals(beneficios.get("Hora_Extra"))) {
             double salarioBase = (double) funcionario.get("salario_base");
 
-            Map<String, Object> bancoMap = BancoDeHorasRepository.imprimirBancoHoras((int) funcionario.get("id"));
+            Map<String, Object> bancoMap = BancoDeHorasRepository.imprimirBancoHoras((int) beneficios.get("id"));
 
             double horasTotais = (double) bancoMap.get("horas_totais");
             double horas50 = (double) bancoMap.get("horas_extras_50%");
