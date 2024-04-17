@@ -39,21 +39,20 @@ public class AdicionaisRepository {
     /* 
      * aqui faz um select das colunas REFERENCIA, DESCONTOS E PROVENTOS, genericamente da tabela ADICIONAIS, coloca em um vetor e manda pra preencher
      */
-    public int[] selectValoresAdicionais(int id, String coluna) {
+    public double[] selectValoresAdicionais(int id, String coluna) {//
         FolhaDePagamentoRepository folhaDePagamentoRepository = new FolhaDePagamentoRepository(jdbcTemplate);
         int id_folha_pagamento = folhaDePagamentoRepository.selectFolhaDoFuncionario(id);
         String sql = "SELECT " + coluna + " FROM adicionais WHERE id_folha_pagamento = ?";
         List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, id_folha_pagamento);
-        int[] valores = new int[rows.size()];
+        double[] valores = new double[rows.size()];//
     
         for (int i = 0; i < rows.size(); i++) {
             Map<String, Object> row = rows.get(i);
-            valores[i] = ((Number) row.get(coluna)).intValue(); 
+            valores[i] = ((Number) row.get(coluna)).doubleValue(); //
         }
     
         return valores;
     }
-    
     
     
 }

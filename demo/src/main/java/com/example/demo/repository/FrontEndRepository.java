@@ -28,7 +28,7 @@ public class FrontEndRepository {
     }
 
     public List<Map<String, Object>> selectFuncionarios(int id_empregador) {
-        String sql = "SELECT id, nome FROM funcionario WHERE id = ?";
+        String sql = "SELECT id, nome FROM funcionario WHERE id_empregador = ?";
         return jdbcTemplate.queryForList(sql, id_empregador);
     }
 }

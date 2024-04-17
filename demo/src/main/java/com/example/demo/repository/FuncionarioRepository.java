@@ -17,7 +17,10 @@ public class FuncionarioRepository {
     }
 
     public Map<String, Object> imprimirFuncionarioPorId(int id) {
-        String sqlF = "SELECT * FROM funcionario WHERE id = ?";
+        String sqlF = "SELECT f.* " +
+                        "FROM funcionario f " +
+                        "WHERE f.id = ?; "; 
+        
                    
         Map<String, Object> funcionario = jdbcTemplate.queryForMap(sqlF, id);
 

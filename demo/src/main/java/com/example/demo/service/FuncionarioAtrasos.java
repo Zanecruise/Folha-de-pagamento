@@ -34,7 +34,7 @@ public class FuncionarioAtrasos implements InterfaceService {
 
             atrasos = arredondarParaDuasCasasDecimais(atrasos);
 
-            this.descricao = "FALTAS";
+            this.descricao = "ATRASOS";
             this.referencia = quantidadeAtrasos;
             this.provento = 0.0;
             this.desconto = atrasos;

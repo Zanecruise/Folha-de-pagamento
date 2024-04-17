@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Map;
 
+import com.example.demo.joins.QuantidadeFaltas;
+
 public class FuncionarioValeAlimentacao implements InterfaceService {
 
     private String descricao;
@@ -15,10 +17,16 @@ public class FuncionarioValeAlimentacao implements InterfaceService {
     public double calcularBeneficio(Map<String, Object> beneficios, Map<String, Object> funcionario) {
         if (Boolean.TRUE.equals(beneficios.get("Vale_Alimentacao"))) {
             
+            int id_beneficios_fixos = (int) beneficios.get("id");
+
+            int quantidade = QuantidadeFaltas.quantidadeFaltas(id_beneficios_fixos);
+
+            double diasTrabalhados  = 19 - quantidade; // 19 dias uteis abril
 
             double valorDiaVale = 20;
 
-            double valorTotalVale = valorDiaVale * 22;
+            // TOTAL DIAS UTEIS - FALTAS // 19 - FALTAS
+            double valorTotalVale = valorDiaVale * diasTrabalhados;
 
             double descontoVale = (valorTotalVale * 0.1); // Desconto de 10%
 

@@ -19,7 +19,7 @@ public class FuncionarioDSR implements InterfaceService {
             double referencia = 4; // dias de descanso no mês
 
             //DSR = (salário recebido * número de descanso no mês) / dias úteis do mês
-            double DSR = (salarioBase * referencia) / 22; 
+            double DSR = (salarioBase * referencia) / 19;  // ABRIL 19
 
 
             

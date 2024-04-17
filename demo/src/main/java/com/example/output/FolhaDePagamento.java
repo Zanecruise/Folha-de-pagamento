@@ -116,9 +116,9 @@ public class FolhaDePagamento implements ApplicationContextAware {
             XSSFSheet sheet, ApplicationContext context2) {
         AdicionaisRepository adicionaisRepository = context2.getBean(AdicionaisRepository.class);
         List<String> descricaoAdicionais = adicionaisRepository.selectDescricao(id_funcionario);
-        int[] refAdicionais = adicionaisRepository.selectValoresAdicionais(id_funcionario, "referencia");
-        int[] provAdicionais = adicionaisRepository.selectValoresAdicionais(id_funcionario, "provento");
-        int[] descAdicionais = adicionaisRepository.selectValoresAdicionais(id_funcionario, "desconto");
+        double[] refAdicionais = adicionaisRepository.selectValoresAdicionais(id_funcionario, "referencia");
+        double[] provAdicionais = adicionaisRepository.selectValoresAdicionais(id_funcionario, "provento");
+        double[] descAdicionais = adicionaisRepository.selectValoresAdicionais(id_funcionario, "desconto");
 
         for (int i = 0; i < refAdicionais.length; i++) {
             setCellValue(sheet, mapList.get(1).get("id_descricao") + (i + 9), (i + 1));
