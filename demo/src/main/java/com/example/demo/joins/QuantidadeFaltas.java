@@ -14,9 +14,9 @@ public class QuantidadeFaltas {
 
     public static int quantidadeFaltas(int id) {
         
-        String sql = "SELECT COUNT(*) AS total_registros" +
-                        "FROM dias_faltados df" + 
-                        "JOIN beneficios_fixos bf ON df.id_beneficios_fixos = bf.id" +
+        String sql = "SELECT COUNT(*) AS total_registros " +
+                        "FROM dias_faltados df " + 
+                        "JOIN beneficios_fixos bf ON df.id_beneficios_fixos = bf.id " +
                         "WHERE bf.id = ? ";
 
         return jdbcTemplate.queryForObject(sql, Integer.class, id);

@@ -1,7 +1,5 @@
 package com.example.demo.joins;
 
-import java.util.List;
-import java.util.Map;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -16,13 +14,13 @@ public class quantidadeFuncionarios {
     }
 
     public static int quantidadeFuncionariosEmpresa(int id) {
-        String sql = "SELECT *, e.id AS empregador_id " +
-                     "FROM funcionario f " +
-                     "JOIN empregador e ON e.id = f.id_empregador " +
-                     "WHERE e.id = ?";
+        //String sql = "SELECT *, e.id AS empregador_id " +
+                    // "FROM funcionario f " +
+                    // "JOIN empregador e ON e.id = f.id_empregador " +
+                    // "WHERE e.id = ?";
         
         
-        List<Map<String, Object>> registros = jdbcTemplate.queryForList(sql, id);
+        //List<Map<String, Object>> registros = jdbcTemplate.queryForList(sql, id);
     
         
         String sqlContagem = "SELECT COUNT(*) AS total_registros " +
