@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="/style.css">
     <title>Folha de Pagamento</title>
 </head>
 
@@ -17,25 +17,25 @@
         <section id="caixas-de-texto">
             <div class="caixa-texto">
                 <label>Selecione o EMPREGADOR</label>
-                <select name="select-empregador" id="select-empregador">
+                <select onblur="listFuncionario(this.value); ocultarConfirm()" name="select-empregador" id="select-empregador">
                     <option selected disabled>Selecione...</option>
-                    <option value="valor1">Jonas RocketBall Club</option>
-                    <option value="valor1">RodoJonas</option>
-                    <option value="valor1">Jonas Airlines</option>
+                    
                 </select>
             </div>
             <div class="caixa-texto">
                 <label>Selecione o FUNCIONÁRIO</label>
                 <select name="select-funcionario" id="select-funcionario">
                     <option selected disabled>Selecione...</option>
-                    <option value="valor1">Vinicius jose vieira</option>
-                    <option value="valor1">Lucas Fernando</option>
-                    <option value="valor1">Neymar Junior</option>
+                    
                 </select>
             </div>
+            <span id="confirm-emissao"></span>
         </section>
-        <input type="button" class="botao-action" value="GERAR">
+        
+        <input onclick="controllerIdFuncionario()" type="button" class="botao-action" value="GERAR">
     </main>
+    <script src="/script.js"></script>
+
 </body>
 
 </html>
