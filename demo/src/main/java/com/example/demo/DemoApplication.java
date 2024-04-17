@@ -37,11 +37,13 @@ import com.example.demo.service.FuncionarioTempoServico;
 import com.example.demo.service.FuncionarioValeAlimentacao;
 import com.example.demo.service.FuncionarioValeTransporte;
 import com.example.demo.service.FuncionarioViagem;
+
 import com.example.output.FolhaDePagamento;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+
 
 @SpringBootApplication
 @ComponentScan(basePackages = { "com.example.demo", "com.example.output" })
@@ -49,9 +51,16 @@ public class DemoApplication implements ApplicationContextAware {
 
     private static Map<String, Object> funcionario;
     private static Map<String, Object> beneficios;
+
     // private static int beneficiarios;
 
     private static ApplicationContext context;
+
+
+    //private static int beneficiarios;
+    private static int id = 1;
+    private static int id_folha_pagamento = 1;
+    
 
 
     public static void main(String[] args) {
@@ -75,7 +84,7 @@ public class DemoApplication implements ApplicationContextAware {
         int id_folha_pagamento = idFolha;
 
 
-        
+
         beneficios = beneficiosRepository.imprimirBeneficiosPorId(id);
         funcionario = funcionarioRepository.imprimirFuncionarioPorId(id);
         
@@ -111,6 +120,24 @@ public class DemoApplication implements ApplicationContextAware {
         double funcionarioINSS = inss.calcularBeneficio(beneficios, funcionario);
         double funcionarioDescontosJudiciais = descontosJudiciais.calcularBeneficio(beneficios, funcionario);
         double funcionarioDRS = dsr.calcularBeneficio(beneficios, funcionario);
+
+        double funcionarioSalarioFamilia = salarioFamilia.calcularBeneficio(beneficios, funcionario);
+        double funcionarioPericulosidade = periculosidade.calcularBeneficio(beneficios, funcionario);
+        double funcionarioViagem = viagem.calcularBeneficio(beneficios, funcionario);
+        double funcionarioComissao = comissao.calcularBeneficio(beneficios, funcionario);
+        double funcionarioTempoServico = tempoServico.calcularBeneficio(beneficios, funcionario);
+        double funcionarioInsalubridade = insalubridade.calcularBeneficio(beneficios, funcionario);
+        double funcionarioAuxilioCreche = auxilioCreche.calcularBeneficio(beneficios, funcionario);
+        double funcionarioHoraExtra = horaExtra.calcularBeneficio(beneficios, funcionario);
+        double funcionarioAdicionalNoturno = adicionalNoturno.calcularBeneficio(beneficios, funcionario);
+        double funcionarioFaltas = faltas.calcularBeneficio(beneficios, funcionario);
+        double funcionarioContribuicaoSindical = cs.calcularBeneficio(beneficios, funcionario);
+        double funcionarioValeAlimentacao = valeAlimentacao.calcularBeneficio(beneficios, funcionario);
+        double funcionarioAtrasos = atrasos.calcularBeneficio(beneficios, funcionario);
+        double funcionarioValeTransporte = valeTransporte.calcularBeneficio(beneficios, funcionario);
+        double funcionarioIRRF = irrf.calcularBeneficio(beneficios, funcionario);
+        
+
 
         double funcionarioSalarioFamilia = salarioFamilia.calcularBeneficio(beneficios, funcionario);
         double funcionarioPericulosidade = periculosidade.calcularBeneficio(beneficios, funcionario);
@@ -263,6 +290,7 @@ public class DemoApplication implements ApplicationContextAware {
 
             adicionaisInsert.inserirAdiantamento(descricao, referencia, provento, desconto, id, id_folha_pagamento);
             
+
         }
 
         if (funcionarioAdicionalNoturno != 0.0) {
@@ -388,6 +416,89 @@ public class DemoApplication implements ApplicationContextAware {
         BigDecimal valorBigDecimal = new BigDecimal(valor);
         valorBigDecimal = valorBigDecimal.setScale(2, RoundingMode.HALF_UP);
         return valorBigDecimal.doubleValue();
+
+        }
+
+        if (funcionarioAdicionalNoturno != 0.0) {
+
+            String descricao = adicionalNoturno.getDescricao();
+            double referencia = adicionalNoturno.getReferencia();
+            double provento = adicionalNoturno.getProvento();
+            double desconto = adicionalNoturno.getDesconto();
+
+            adicionaisInsert.inserirAdiantamento(descricao, referencia, provento, desconto, id, id_folha_pagamento);
+            
+        }
+
+        if (funcionarioFaltas != 0.0) {
+
+            String descricao = faltas.getDescricao();
+            double referencia = faltas.getReferencia();
+            double provento = faltas.getProvento();
+            double desconto = faltas.getDesconto();
+
+            adicionaisInsert.inserirAdiantamento(descricao, referencia, provento, desconto, id, id_folha_pagamento);
+            
+        }
+
+        if (funcionarioContribuicaoSindical != 0.0) {
+
+            String descricao = cs.getDescricao();
+            double referencia = cs.getReferencia();
+            double provento = cs.getProvento();
+            double desconto = cs.getDesconto();
+
+            adicionaisInsert.inserirAdiantamento(descricao, referencia, provento, desconto, id, id_folha_pagamento);
+            
+        }
+
+        if (funcionarioValeAlimentacao != 0.0) {
+
+            String descricao = valeAlimentacao.getDescricao();
+            double referencia = valeAlimentacao.getReferencia();
+            double provento = valeAlimentacao.getProvento();
+            double desconto = valeAlimentacao.getDesconto();
+
+            adicionaisInsert.inserirAdiantamento(descricao, referencia, provento, desconto, id, id_folha_pagamento);
+            
+        }
+
+        if (funcionarioAtrasos != 0.0) {
+
+            String descricao = atrasos.getDescricao();
+            double referencia = atrasos.getReferencia();
+            double provento = atrasos.getProvento();
+            double desconto = atrasos.getDesconto();
+
+            adicionaisInsert.inserirAdiantamento(descricao, referencia, provento, desconto, id, id_folha_pagamento);
+            
+        }
+
+        if (funcionarioValeTransporte != 0.0) {
+
+            String descricao = valeTransporte.getDescricao();
+            double referencia = valeTransporte.getReferencia();
+            double provento = valeTransporte.getProvento();
+            double desconto = valeTransporte.getDesconto();
+
+            adicionaisInsert.inserirAdiantamento(descricao, referencia, provento, desconto, id, id_folha_pagamento);
+            
+        }
+
+        if (funcionarioIRRF != 0.0) {
+
+            String descricao = irrf.getDescricao();
+            double referencia = irrf.getReferencia();
+            double provento = irrf.getProvento();
+            double desconto = irrf.getDesconto();
+
+            adicionaisInsert.inserirAdiantamento(descricao, referencia, provento, desconto, id, id_folha_pagamento);
+            
+        }
+
+        
+
+
     }
 
 }
