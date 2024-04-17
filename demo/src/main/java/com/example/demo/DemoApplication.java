@@ -1,6 +1,5 @@
 package com.example.demo;
 
-import java.text.ParseException;
 import java.util.Map;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,12 +7,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
 import com.example.demo.insert.AdicionaisInsert;
-import com.example.demo.joins.FuncionarioEmpregadorJoin;
-import com.example.demo.repository.AdicionaisRepository;
-import com.example.demo.repository.AtributosFolhaRepository;
 //import com.example.demo.joins.BeneficiariosLEFT;
 import com.example.demo.repository.BeneficiosRepository;
-import com.example.demo.repository.EnderecoToString;
 import com.example.demo.repository.FuncionarioRepository;
 import com.example.demo.service.FuncionarioAdiantamento;
 import com.example.demo.service.FuncionarioDSR;
@@ -22,9 +17,6 @@ import com.example.demo.service.FuncionarioFGTS;
 import com.example.demo.service.FuncionarioINSS;
 import com.example.demo.service.FuncionarioPericulosidade;
 import com.example.demo.service.FuncionarioSalarioFamilia;
-import com.example.output.FolhaDePagamento;
-
-import java.util.List;
 
 @SpringBootApplication
 @ComponentScan(basePackages = { "com.example.demo", "com.example.output" })
