@@ -6,12 +6,24 @@ import java.util.Map;
 
 import com.example.demo.repository.DescontosIRRFRepository;
 
+
+public class FuncionarioIRRF {
+
 public class FuncionarioIRRF implements InterfaceService {
+
 
     private String descricao;
     private double referencia;
     private double provento;
     private double desconto;
+
+
+    
+    public double calcularBeneficio(Map<String, Object> beneficios, Map<String, Object> funcionario, int id_folha_pagamento) {
+        if (Boolean.TRUE.equals(beneficios.get("IRRF"))) {
+            double salarioBase = (double) funcionario.get("salario_base");
+
+            double descontos = DescontosIRRFRepository.descontoTotal(id_folha_pagamento); // COLOCAR O ID DA FOLHA
 
     @Override
     public double calcularBeneficio(Map<String, Object> beneficios, Map<String, Object> funcionario) {
@@ -19,6 +31,7 @@ public class FuncionarioIRRF implements InterfaceService {
             double salarioBase = (double) funcionario.get("salario_base");
 
             double descontos = DescontosIRRFRepository.descontoTotal(1); // COLOCAR O ID DA FOLHA
+
 
             // Salário líquido é o salário base menos os descontos
             double salarioLiquido = salarioBase - descontos;
@@ -44,6 +57,20 @@ public class FuncionarioIRRF implements InterfaceService {
             if (salarioLiquido <= faixa1) {
                 imposto = 0.0; // Isento
                 faixa = 1;
+
+            } else if (salarioLiquido <= faixa2) {
+                imposto = (salarioLiquido - faixa1) * aliquota2;
+                faixa = 2;
+            } else if (salarioLiquido <= faixa3) {
+                imposto = (salarioLiquido - faixa2) * aliquota3 + (faixa2 - faixa1) * aliquota2;
+                faixa = 3;
+            } else if (salarioLiquido <= faixa4) {
+                imposto = (salarioLiquido - faixa3) * aliquota4 + (faixa3 - faixa2) * aliquota3 + (faixa2 - faixa1) * aliquota2;
+                faixa = 4;
+            } else {
+                imposto = (salarioLiquido - faixa4) * aliquota5 + (faixa4 - faixa3) * aliquota4 + (faixa3 - faixa2) * aliquota3 + (faixa2 - faixa1) * aliquota2;
+                faixa = 5;
+
 
             } else if (salarioLiquido <= faixa2) {
                 imposto = (salarioLiquido - faixa1) * aliquota2;
@@ -75,16 +102,30 @@ public class FuncionarioIRRF implements InterfaceService {
             this.provento = 0.0;
             this.desconto = imposto;
 
+
+            
+            System.out.println("CALCULOU IR");
+
             return imposto;
 
            
         }
+
+        System.out.println("NAO CALCULOU IR");
+        return 0.0; 
+        
+
+    }
+
+    
+
     
         return 0.0; 
 
     }
 
     @Override
+
     public double arredondarParaDuasCasasDecimais(double valor) {
         BigDecimal valorBigDecimal = new BigDecimal(valor);
         valorBigDecimal = valorBigDecimal.setScale(2, RoundingMode.HALF_UP);
