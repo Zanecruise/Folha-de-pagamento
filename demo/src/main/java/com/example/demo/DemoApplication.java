@@ -4,6 +4,8 @@ import java.util.Map;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+
 import com.example.demo.insert.AdicionaisInsert;
 //import com.example.demo.joins.BeneficiariosLEFT;
 import com.example.demo.repository.BeneficiosRepository;
@@ -30,32 +32,33 @@ import com.example.demo.service.FuncionarioValeTransporte;
 import com.example.demo.service.FuncionarioViagem;
 
 @SpringBootApplication
+@ComponentScan(basePackages = { "com.example.demo", "com.example.output" })
 public class DemoApplication {
 
     private static Map<String, Object> funcionario;
     private static Map<String, Object> beneficios;
-    //private static int beneficiarios;
+    // private static int beneficiarios;
     private static int id = 1;
+
     private static int id_folha_pagamento = 1;
-    
+
 
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(DemoApplication.class, args);
         FuncionarioRepository funcionarioRepository = context.getBean(FuncionarioRepository.class);
         BeneficiosRepository beneficiosRepository = context.getBean(BeneficiosRepository.class);
         AdicionaisInsert adicionaisInsert = context.getBean(AdicionaisInsert.class);
-        //BeneficiariosLEFT beneficiariosLEFT = context.getBean(BeneficiariosLEFT.class);
+        // BeneficiariosLEFT beneficiariosLEFT =
+        // context.getBean(BeneficiariosLEFT.class);
 
 
         beneficios = beneficiosRepository.imprimirBeneficiosPorId(id);
         funcionario = funcionarioRepository.imprimirFuncionarioPorId(id);
-        //beneficiarios = beneficiariosLEFT.imprimirBeneficiariosPorId(id);
-        
-
+        // beneficiarios = beneficiariosLEFT.imprimirBeneficiariosPorId(id);
 
         System.out.println(beneficios);
         System.out.println(funcionario);
-        //System.out.println(beneficiarios);
+        // System.out.println(beneficiarios);
 
         FuncionarioAdiantamento adiantamento = new FuncionarioAdiantamento();
         FuncionarioFGTS fgts = new FuncionarioFGTS();
@@ -83,6 +86,7 @@ public class DemoApplication {
         double funcionarioINSS = inss.calcularBeneficio(beneficios, funcionario);
         double funcionarioDescontosJudiciais = descontosJudiciais.calcularBeneficio(beneficios, funcionario);
         double funcionarioDRS = dsr.calcularBeneficio(beneficios, funcionario);
+
         double funcionarioSalarioFamilia = salarioFamilia.calcularBeneficio(beneficios, funcionario);
         double funcionarioPericulosidade = periculosidade.calcularBeneficio(beneficios, funcionario);
         double funcionarioViagem = viagem.calcularBeneficio(beneficios, funcionario);
@@ -99,7 +103,6 @@ public class DemoApplication {
         double funcionarioValeTransporte = valeTransporte.calcularBeneficio(beneficios, funcionario);
         double funcionarioIRRF = irrf.calcularBeneficio(beneficios, funcionario);
         
-
         if (funcionarioINSS != 0.0) {
 
             String descricao = inss.getDescricao();
