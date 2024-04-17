@@ -17,10 +17,14 @@ public class BeneficiosRepository {
     }
 
     public Map<String, Object> imprimirBeneficiosPorId(int id) {
-        String sqlF = "SELECT * FROM beneficios_fixos WHERE id = ?";
+        String sqlF = "SELECT bf.* " +
+                        "FROM beneficios_fixos bf " + 
+                        "JOIN funcionario f ON f.id = bf.id " + 
+                        "WHERE f.id = ? ";
+
         Map<String, Object> beneficios_fixos = jdbcTemplate.queryForMap(sqlF, id);
 
-
         return(beneficios_fixos);
+        
     }
 }

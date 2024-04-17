@@ -4,7 +4,10 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Map;
 
-public class FuncionarioFGTS implements InterfaceService {
+import com.example.demo.repository.AtrasosRepository;
+import com.example.demo.repository.BancoDeHorasRepository;
+
+public class FuncionarioAtrasos implements InterfaceService {
 
     private String descricao;
     private double referencia;
@@ -13,30 +16,34 @@ public class FuncionarioFGTS implements InterfaceService {
 
     @Override
     public double calcularBeneficio(Map<String, Object> beneficios, Map<String, Object> funcionario) {
-
-        if (Boolean.TRUE.equals(beneficios.get("FGTS"))) {
+        if (Boolean.TRUE.equals(beneficios.get("Atrasos"))) {
             double salarioBase = (double) funcionario.get("salario_base");
 
-            double referencia = 0.08; // 8%
+            int id_beneficios_fixos = (int) beneficios.get("id");
 
-            double FGTS = salarioBase * referencia;
+            int quantidadeAtrasos = AtrasosRepository.quantidadeAtrasos(id_beneficios_fixos);
 
-            FGTS = arredondarParaDuasCasasDecimais(FGTS);
+            Map<String, Object> bancoMap = BancoDeHorasRepository.imprimirBancoHoras((int) beneficios.get("id"));
 
-            this.descricao = "F.G.T.S";
-            this.referencia = 8;
+            double horasTotais = (double) bancoMap.get("horas_totais");
+
+            double salarioHora = salarioBase / horasTotais;
+
+
+            double atrasos = salarioHora * quantidadeAtrasos;
+
+            atrasos = arredondarParaDuasCasasDecimais(atrasos);
+
+            this.descricao = "FALTAS";
+            this.referencia = quantidadeAtrasos;
             this.provento = 0.0;
-            this.desconto = FGTS;
+            this.desconto = atrasos;
 
-            return FGTS;
-            
-        } else {
-
-            return 0.0; 
-
+            return atrasos;
         }
     
-        
+        return 0.0; 
+
     }
 
     @Override
@@ -46,15 +53,15 @@ public class FuncionarioFGTS implements InterfaceService {
         return valorBigDecimal.doubleValue();
     }
 
-    public FuncionarioFGTS() {
-        
-    }
-
-    public FuncionarioFGTS(String descricao, double referencia, double provento, double desconto) {
+    public FuncionarioAtrasos(String descricao, double referencia, double provento, double desconto) {
         this.descricao = descricao;
         this.referencia = referencia;
         this.provento = provento;
         this.desconto = desconto;
+    }
+
+    public FuncionarioAtrasos() {
+        
     }
 
     public String getDescricao() {
@@ -72,5 +79,5 @@ public class FuncionarioFGTS implements InterfaceService {
     public double getDesconto() {
         return desconto;
     }
- 
+
 }

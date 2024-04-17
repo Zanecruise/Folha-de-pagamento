@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Map;
 
-public class FuncionarioFGTS implements InterfaceService {
+public class FuncionarioValeAlimentacao implements InterfaceService {
 
     private String descricao;
     private double referencia;
@@ -13,30 +13,30 @@ public class FuncionarioFGTS implements InterfaceService {
 
     @Override
     public double calcularBeneficio(Map<String, Object> beneficios, Map<String, Object> funcionario) {
-
-        if (Boolean.TRUE.equals(beneficios.get("FGTS"))) {
-            double salarioBase = (double) funcionario.get("salario_base");
-
-            double referencia = 0.08; // 8%
-
-            double FGTS = salarioBase * referencia;
-
-            FGTS = arredondarParaDuasCasasDecimais(FGTS);
-
-            this.descricao = "F.G.T.S";
-            this.referencia = 8;
-            this.provento = 0.0;
-            this.desconto = FGTS;
-
-            return FGTS;
+        if (Boolean.TRUE.equals(beneficios.get("Vale_Alimentacao"))) {
             
-        } else {
 
-            return 0.0; 
+            double valorDiaVale = 20;
 
+            double valorTotalVale = valorDiaVale * 22;
+
+            double descontoVale = (valorTotalVale * 0.1); // Desconto de 10%
+
+            double valeAlimentacao = valorTotalVale - descontoVale;
+
+
+            valeAlimentacao = arredondarParaDuasCasasDecimais(valeAlimentacao);
+
+            this.descricao = "VALE ALIMENTACAO";
+            this.referencia = valorDiaVale;
+            this.provento = valeAlimentacao;
+            this.desconto = descontoVale;
+
+            return valeAlimentacao;
         }
     
-        
+        return 0.0; 
+
     }
 
     @Override
@@ -46,15 +46,15 @@ public class FuncionarioFGTS implements InterfaceService {
         return valorBigDecimal.doubleValue();
     }
 
-    public FuncionarioFGTS() {
-        
-    }
-
-    public FuncionarioFGTS(String descricao, double referencia, double provento, double desconto) {
+    public FuncionarioValeAlimentacao(String descricao, double referencia, double provento, double desconto) {
         this.descricao = descricao;
         this.referencia = referencia;
         this.provento = provento;
         this.desconto = desconto;
+    }
+
+    public FuncionarioValeAlimentacao() {
+        
     }
 
     public String getDescricao() {
@@ -72,5 +72,5 @@ public class FuncionarioFGTS implements InterfaceService {
     public double getDesconto() {
         return desconto;
     }
- 
+
 }

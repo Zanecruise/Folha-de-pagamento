@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Map;
+import java.util.Random;
 
 public class FuncionarioAdiantamento implements InterfaceService {
 
@@ -16,15 +17,15 @@ public class FuncionarioAdiantamento implements InterfaceService {
         if (Boolean.TRUE.equals(beneficios.get("Adiantamento"))) {
             double salarioBase = (double) funcionario.get("salario_base");
 
-            double referencia = 0.1; // = 10%
+            double maximo = salarioBase * 0.4;
 
-            // 10% de adiantamento no MAX
-            double Adiantamento = salarioBase * referencia;
+            double Adiantamento = gerarNumeroAleatorio(50, maximo);
+
 
             Adiantamento = arredondarParaDuasCasasDecimais(Adiantamento);
 
             this.descricao = "ADIANTAMENTO";
-            this.referencia = 10;
+            this.referencia = 0.0;
             this.provento = Adiantamento;
             this.desconto = 0.0;
 
@@ -40,6 +41,12 @@ public class FuncionarioAdiantamento implements InterfaceService {
         BigDecimal valorBigDecimal = new BigDecimal(valor);
         valorBigDecimal = valorBigDecimal.setScale(2, RoundingMode.HALF_UP);
         return valorBigDecimal.doubleValue();
+    }
+    
+    public double gerarNumeroAleatorio(double min, double max) {
+
+        Random random = new Random();
+        return random.nextDouble((max - min) + 1) + min;
     }
 
     public FuncionarioAdiantamento(String descricao, double referencia, double provento, double desconto) {

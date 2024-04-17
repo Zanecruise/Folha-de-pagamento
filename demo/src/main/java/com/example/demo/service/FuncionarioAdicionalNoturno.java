@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Map;
 
-public class FuncionarioDSR implements InterfaceService {
+import com.example.demo.repository.BancoDeHorasRepository;
+
+public class FuncionarioAdicionalNoturno implements InterfaceService {
 
     private String descricao;
     private double referencia;
@@ -13,27 +15,35 @@ public class FuncionarioDSR implements InterfaceService {
 
     @Override
     public double calcularBeneficio(Map<String, Object> beneficios, Map<String, Object> funcionario) {
-        if (Boolean.TRUE.equals(beneficios.get("DSR"))) {
+
+        if (Boolean.TRUE.equals(beneficios.get("Adicional_noturno"))) {
             double salarioBase = (double) funcionario.get("salario_base");
 
-            double referencia = 4; // dias de descanso no mês
+            Map<String, Object> bancoMap = BancoDeHorasRepository.imprimirBancoHoras((int) beneficios.get("id"));
 
-            //DSR = (salário recebido * número de descanso no mês) / dias úteis do mês
-            double DSR = (salarioBase * referencia) / 22; 
-
-
-            
-            
+            double horasTotais = (double) bancoMap.get("horas_totais");
+            double horasNoturno = (double) bancoMap.get("Horas_noturno");
 
 
-            DSR = arredondarParaDuasCasasDecimais(DSR);
+            double salarioHora = salarioBase / horasTotais;
 
-            this.descricao = "DSR";
-            this.referencia = referencia;
-            this.provento = DSR;
-            this.desconto = 0.0;
 
-            return DSR;
+            if (horasNoturno > 0) {
+
+                double adicional = salarioHora * 1.2;
+                double adicionalNoturno = horasNoturno * adicional;
+
+                adicionalNoturno = arredondarParaDuasCasasDecimais(adicionalNoturno);
+                this.descricao = "ADICIONAL NOTURNO";
+                this.referencia = horasNoturno;
+                this.provento = adicionalNoturno;
+                this.desconto = 0.0;
+
+                return adicionalNoturno;
+
+                
+            }
+
         }
     
         return 0.0; 
@@ -47,14 +57,14 @@ public class FuncionarioDSR implements InterfaceService {
         return valorBigDecimal.doubleValue();
     }
 
-    public FuncionarioDSR(String descricao, double referencia, double provento, double desconto) {
+    public FuncionarioAdicionalNoturno(String descricao, double referencia, double provento, double desconto) {
         this.descricao = descricao;
         this.referencia = referencia;
         this.provento = provento;
         this.desconto = desconto;
     }
 
-    public FuncionarioDSR() {
+    public FuncionarioAdicionalNoturno() {
         
     }
 

@@ -3,8 +3,11 @@ package com.example.demo.service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Map;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.sql.Date;
 
-public class FuncionarioFGTS implements InterfaceService {
+public class FuncionarioTempoServico implements InterfaceService {
 
     private String descricao;
     private double referencia;
@@ -13,30 +16,37 @@ public class FuncionarioFGTS implements InterfaceService {
 
     @Override
     public double calcularBeneficio(Map<String, Object> beneficios, Map<String, Object> funcionario) {
-
-        if (Boolean.TRUE.equals(beneficios.get("FGTS"))) {
+        if (Boolean.TRUE.equals(beneficios.get("Adicional_Tempo_Servico"))) {
             double salarioBase = (double) funcionario.get("salario_base");
 
-            double referencia = 0.08; // 8%
+            Date admissaoDoBanco = (Date) funcionario.get("admissao");
 
-            double FGTS = salarioBase * referencia;
+            LocalDate admissao = admissaoDoBanco.toLocalDate();
 
-            FGTS = arredondarParaDuasCasasDecimais(FGTS);
+            LocalDate dataEspecifica = LocalDate.now();
 
-            this.descricao = "F.G.T.S";
-            this.referencia = 8;
-            this.provento = 0.0;
-            this.desconto = FGTS;
 
-            return FGTS;
-            
-        } else {
+            long diffInDays = ChronoUnit.DAYS.between(admissao, dataEspecifica);
 
-            return 0.0; 
+            long anos = diffInDays / 365; 
 
+            long quinquenio = anos/5;
+
+            double Adicional = ( salarioBase * 0.05 ) * quinquenio;
+
+
+            Adicional = arredondarParaDuasCasasDecimais(Adicional);
+
+            this.descricao = "ADICIONAL TEMPO SERVICO";
+            this.referencia = quinquenio;
+            this.provento = Adicional;
+            this.desconto = 0.0;
+
+            return Adicional;
         }
     
-        
+        return 0.0; 
+
     }
 
     @Override
@@ -46,15 +56,15 @@ public class FuncionarioFGTS implements InterfaceService {
         return valorBigDecimal.doubleValue();
     }
 
-    public FuncionarioFGTS() {
-        
-    }
-
-    public FuncionarioFGTS(String descricao, double referencia, double provento, double desconto) {
+    public FuncionarioTempoServico(String descricao, double referencia, double provento, double desconto) {
         this.descricao = descricao;
         this.referencia = referencia;
         this.provento = provento;
         this.desconto = desconto;
+    }
+
+    public FuncionarioTempoServico() {
+        
     }
 
     public String getDescricao() {
@@ -72,5 +82,5 @@ public class FuncionarioFGTS implements InterfaceService {
     public double getDesconto() {
         return desconto;
     }
- 
+
 }
