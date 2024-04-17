@@ -1,12 +1,19 @@
 package com.example.demo;
 
+import java.text.ParseException;
 import java.util.Map;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+
 import com.example.demo.insert.AdicionaisInsert;
+import com.example.demo.joins.FuncionarioEmpregadorJoin;
+import com.example.demo.repository.AdicionaisRepository;
+import com.example.demo.repository.AtributosFolhaRepository;
 //import com.example.demo.joins.BeneficiariosLEFT;
 import com.example.demo.repository.BeneficiosRepository;
+import com.example.demo.repository.EnderecoToString;
 import com.example.demo.repository.FuncionarioRepository;
 import com.example.demo.service.FuncionarioAdiantamento;
 import com.example.demo.service.FuncionarioDSR;
@@ -15,32 +22,34 @@ import com.example.demo.service.FuncionarioFGTS;
 import com.example.demo.service.FuncionarioINSS;
 import com.example.demo.service.FuncionarioPericulosidade;
 import com.example.demo.service.FuncionarioSalarioFamilia;
+import com.example.output.FolhaDePagamento;
+
+import java.util.List;
 
 @SpringBootApplication
+@ComponentScan(basePackages = { "com.example.demo", "com.example.output" })
 public class DemoApplication {
 
     private static Map<String, Object> funcionario;
     private static Map<String, Object> beneficios;
-    //private static int beneficiarios;
+    // private static int beneficiarios;
     private static int id = 1;
-    
 
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(DemoApplication.class, args);
         FuncionarioRepository funcionarioRepository = context.getBean(FuncionarioRepository.class);
         BeneficiosRepository beneficiosRepository = context.getBean(BeneficiosRepository.class);
         AdicionaisInsert adicionaisInsert = context.getBean(AdicionaisInsert.class);
-        //BeneficiariosLEFT beneficiariosLEFT = context.getBean(BeneficiariosLEFT.class);
+        // BeneficiariosLEFT beneficiariosLEFT =
+        // context.getBean(BeneficiariosLEFT.class);
 
         beneficios = beneficiosRepository.imprimirBeneficiosPorId(id);
         funcionario = funcionarioRepository.imprimirFuncionarioPorId(id);
-        //beneficiarios = beneficiariosLEFT.imprimirBeneficiariosPorId(id);
-        
-
+        // beneficiarios = beneficiariosLEFT.imprimirBeneficiariosPorId(id);
 
         System.out.println(beneficios);
         System.out.println(funcionario);
-        //System.out.println(beneficiarios);
+        // System.out.println(beneficiarios);
 
         FuncionarioAdiantamento adiantamento = new FuncionarioAdiantamento();
         FuncionarioFGTS fgts = new FuncionarioFGTS();
@@ -58,9 +67,8 @@ public class DemoApplication {
         double FuncionarioSalarioFamilia = salarioFamilia.calcularBeneficio(beneficios, funcionario);
         double FuncionarioPericulosidade = periculosidade.calcularBeneficio(beneficios, funcionario);
 
-        //System.out.println(funcionarioDRS);
+        // System.out.println(funcionarioDRS);
         System.out.println(FuncionarioSalarioFamilia);
-
 
         if (funcionarioINSS != 0.0) {
 

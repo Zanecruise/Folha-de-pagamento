@@ -37,7 +37,7 @@ body {
 h1 {
     font-weight: normal;
     font-size: 5vh;
-    margin-bottom: 12vh;
+    margin-bottom: 10vh;
 }
 label{
     font-weight: normal;
@@ -45,7 +45,7 @@ label{
 }
 
 .botao-action {
-    margin-top: 12vh;
+    margin-top: 10vh;
     color: white;
     padding: 2vh;
     border-radius: 1vh;
@@ -72,4 +72,9 @@ label{
 .caixa-texto select:focus{
     box-shadow: 0 0 0 0;
     outline: 20px red;
+}
+
+#confirm-emissao {
+    font-weight: bold;
+    display: none;
 }
